@@ -6,7 +6,6 @@ use libpulse_binding::context::subscribe::subscription_masks;
 use libpulse_binding::volume::ChannelVolumes;
 use libpulse_futures::context::Context as PulseContext;
 use libpulse_futures::context::{flags, Proplist};
-use libpulse_futures::introspector::SinkInfo;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::sync::Arc;
@@ -14,7 +13,7 @@ use std::sync::Arc;
 #[derive(Clone, Debug)]
 pub struct SetVolume(pub String, pub ChannelVolumes);
 
-pub type AudioSinksUpdate = Vec<SinkInfo>;
+pub struct AudioSinksUpdate;
 
 pub struct Audio {
   context: Rc<RefCell<PulseContext>>,
@@ -59,18 +58,20 @@ impl Audio {
       .context
       .borrow_mut()
       .subscribe(interest)
-      .and_then(|_| self.context.borrow_mut().introspect().get_sink_info_list())
-      .map(|update| update.unwrap())
-      .for_each(|update| {
-        let update = Arc::new(update);
-        for subscriber in self.subscribers.borrow().iter() {
-          if !subscriber.is_closed() {
-            subscriber.unbounded_send(update.clone()).unwrap();
-          }
-        }
+      .for_each(|_| {
+        self.update_subscribers();
         future::ready(())
       })
       .await;
+  }
+
+  pub fn update_subscribers(&self) {
+    let update = Arc::new(AudioSinksUpdate);
+    for subscriber in self.subscribers.borrow().iter() {
+      if !subscriber.is_closed() {
+        subscriber.unbounded_send(update.clone()).unwrap();
+      }
+    }
   }
 
   pub fn subscribe_to_system_volume(&self) -> impl Stream<Item = f64> {

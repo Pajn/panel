@@ -65,6 +65,7 @@ fn create_system_menu(c: MainContext, audio: Rc<Audio>) -> gtk::Box {
       future::ready(())
     })),
   );
+  audio.update_subscribers();
 
   system_menu
 }
@@ -104,6 +105,7 @@ pub fn create_settings_button(c: MainContext, audio: Rc<Audio>) -> gtk::EventBox
       future::ready(())
     }),
   );
+  audio.update_subscribers();
 
   let system_button = gtk::EventBox::new();
   system_button.add(&system_button_row);
