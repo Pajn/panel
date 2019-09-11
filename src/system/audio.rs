@@ -99,6 +99,25 @@ impl Audio {
       .map(|sink| sink.volume.avg().0 as f64 / sink.n_volume_steps as f64)
   }
 
+  pub async fn get_system_volume(&self) -> Result<f64, ()> {
+    let server_info = self
+      .context
+      .borrow_mut()
+      .introspect()
+      .get_server_info()
+      .await?;
+    let default_sink_name = server_info.default_sink_name.ok_or(())?;
+    let default_sink = self
+      .context
+      .borrow_mut()
+      .introspect()
+      .get_sink_info_by_name(&default_sink_name)
+      .await?
+      .ok_or(())?;
+
+    Ok(default_sink.volume.avg().0 as f64 / default_sink.n_volume_steps as f64)
+  }
+
   pub async fn set_system_volume(&self, volume: f64) -> Result<(), ()> {
     let server_info = self
       .context

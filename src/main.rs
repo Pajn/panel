@@ -1,6 +1,7 @@
 #![feature(exclusive_range_pattern)]
 
 mod clock;
+mod modal;
 mod popup;
 mod settings;
 mod system;
@@ -10,6 +11,7 @@ pub use crate::clock::create_clock;
 pub use crate::settings::create_settings_button;
 pub use crate::system::audio::*;
 pub use crate::utils::set_window_background;
+use dbus::blocking::Connection;
 use gio::prelude::*;
 use glib::MainContext;
 use glib::*;
@@ -18,7 +20,7 @@ use gtk_layer_shell_rs as gtk_layer_shell;
 use std::env::args;
 use std::rc::Rc;
 
-fn activate(application: &gtk::Application) {
+fn activate(application: &gtk::Application, dbus: Rc<Connection>) {
   let c = MainContext::default();
 
   let audio = c.block_on(Audio::new());
@@ -55,7 +57,7 @@ fn activate(application: &gtk::Application) {
 
   center.add(&clock);
 
-  let settings_button = create_settings_button(c, audio);
+  let settings_button = create_settings_button(c, audio, dbus);
   right.add(&settings_button);
 
   panel.pack_start(&left, true, true, 8);
@@ -69,6 +71,14 @@ const STYLE: &str = "
 scale {
   min-width: 250px;
 }
+
+.modal_button {
+  padding: 8px;
+}
+.modal_button image {
+  margin: 24px;
+  margin-bottom: 16px;
+}
 ";
 
 fn main() {
@@ -76,7 +86,9 @@ fn main() {
     gtk::Application::new(Some("com.subgraph.gtk-layer-example"), Default::default())
       .expect("Initialization failed...");
 
-  application.connect_activate(|app| {
+  let dbus = Rc::new(Connection::new_system().unwrap());
+
+  application.connect_activate(move |app| {
     let provider = gtk::CssProvider::new();
     provider
       .load_from_data(STYLE.as_bytes())
@@ -87,7 +99,7 @@ fn main() {
       gtk::STYLE_PROVIDER_PRIORITY_APPLICATION,
     );
 
-    activate(app);
+    activate(app, dbus.clone());
   });
 
   application.run(&args().collect::<Vec<_>>());

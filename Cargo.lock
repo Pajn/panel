@@ -165,6 +165,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "dbus"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "libc 0.2.62 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libdbus-sys 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "fnv"
 version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -527,6 +536,14 @@ version = "0.2.62"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
+name = "libdbus-sys"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "pkg-config 0.3.15 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "libpulse-binding"
 version = "2.11.1"
 dependencies = [
@@ -684,6 +701,7 @@ version = "0.1.0"
 dependencies = [
  "cairo-rs 0.7.0 (git+https://github.com/gtk-rs/cairo)",
  "chrono 0.4.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "dbus 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "futures-preview 0.3.0-alpha.18 (registry+https://github.com/rust-lang/crates.io-index)",
  "futures-util-preview 0.3.0-alpha.18 (registry+https://github.com/rust-lang/crates.io-index)",
  "gdk 0.11.0 (git+https://github.com/gtk-rs/gdk)",
@@ -1158,6 +1176,7 @@ dependencies = [
 "checksum crossbeam-epoch 0.7.2 (registry+https://github.com/rust-lang/crates.io-index)" = "fedcd6772e37f3da2a9af9bf12ebe046c0dfe657992377b4df982a2b54cd37a9"
 "checksum crossbeam-queue 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7c979cd6cfe72335896575c6b5688da489e420d36a27a0b9eb0c73db574b4a4b"
 "checksum crossbeam-utils 0.6.6 (registry+https://github.com/rust-lang/crates.io-index)" = "04973fa96e96579258a5091af6003abde64af786b860f18622b82e026cca60e6"
+"checksum dbus 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "f83adf9ddab84c64d84a77feba08a68cb1c3b40e3936b0a0bc844588ab8d9f7f"
 "checksum fnv 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)" = "2fad85553e09a6f881f739c29f0b00b0f01357c743266d478b68951ce23285f3"
 "checksum fragile 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "05f8140122fa0d5dcb9fc8627cfce2b37cc1500f752636d46ea28bc26785c2f9"
 "checksum fuchsia-zircon 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)" = "2e9763c69ebaae630ba35f74888db465e49e259ba1bc0eda7d06f4a067615d82"
@@ -1190,6 +1209,7 @@ dependencies = [
 "checksum kernel32-sys 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7507624b29483431c0ba2d82aece8ca6cdba9382bff4ddd0f7490560c056098d"
 "checksum lazy_static 1.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "bc5729f27f159ddd61f4df6228e827e86643d4d3e7c32183cb30a1c08f604a14"
 "checksum libc 0.2.62 (registry+https://github.com/rust-lang/crates.io-index)" = "34fcd2c08d2f832f376f4173a231990fa5aef4e99fb569867318a227ef4c06ba"
+"checksum libdbus-sys 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "dc12a3bc971424edbbf7edaf6e5740483444db63aa8e23d3751ff12a30f306f0"
 "checksum lock_api 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)" = "f8912e782533a93a167888781b836336a6ca5da6175c05944c86cf28c31104dc"
 "checksum log 0.4.8 (registry+https://github.com/rust-lang/crates.io-index)" = "14b6052be84e6b71ab17edffc2eeabf5c2c3ae1fdb464aae35ac50c67a44e1f7"
 "checksum memchr 2.2.1 (registry+https://github.com/rust-lang/crates.io-index)" = "88579771288728879b57485cc7d6b07d648c9f0141eb955f8ab7f9d45394468e"
