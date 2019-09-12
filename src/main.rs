@@ -72,8 +72,35 @@ scale {
   min-width: 250px;
 }
 
+.modal {
+  margin: 32px;
+}
+.modal > box {
+  margin: 40px;
+}
+.modal_background {
+  background-color: rgba(62, 65, 60, 0.9);
+}
+.modal_background,
+.modal_close_button {
+  border-radius: 10px;
+}
+.modal_button,
+.modal_close_button {
+  background: transparent;
+}
+.modal_button:hover,
+.modal_close_button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.modal_close_button {
+  border: none;
+  box-shadow: none;
+}
 .modal_button {
   padding: 8px;
+  border-color: rgba(255, 255, 255, 0.2);
+  border-width: 0.5px;
 }
 .modal_button image {
   margin: 24px;

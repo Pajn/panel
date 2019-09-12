@@ -20,27 +20,27 @@ where
 
   let modal_hcontainer = gtk::Box::new(gtk::Orientation::Horizontal, 16);
   let modal_vcontainer = gtk::Box::new(gtk::Orientation::Vertical, 16);
+  let modal_background = gtk::Box::new(gtk::Orientation::Vertical, 16);
   let modal = gtk::Overlay::new();
-  let modal_body = gtk::Box::new(gtk::Orientation::Horizontal, 16);
+  let modal_body = gtk::Box::new(gtk::Orientation::Horizontal, 32);
 
   modal_body.set_center_widget(Some(content));
   modal.add(&modal_body);
-  modal_hcontainer.set_center_widget(Some(&modal));
+  modal_background.add(&modal);
+  modal_hcontainer.set_center_widget(Some(&modal_background));
   modal_vcontainer.set_center_widget(Some(&modal_hcontainer));
   window.add(&modal_vcontainer);
 
-  modal_body.set_margin_top(32);
-  modal_body.set_margin_bottom(32);
-  modal_body.set_margin_start(48);
-  modal_body.set_margin_end(48);
-
-  modal.set_margin_top(32);
-  modal.set_margin_bottom(32);
-  modal.set_margin_start(32);
-  modal.set_margin_end(32);
+  modal_background
+    .get_style_context()
+    .add_class("modal_background");
+  modal.get_style_context().add_class("modal");
 
   let close_button =
     gtk::Button::new_from_icon_name(Some("window-close-symbolic"), gtk::IconSize::Button);
+  close_button
+    .get_style_context()
+    .add_class("modal_close_button");
 
   close_button.connect_button_press_event(clone!(window => move |_, _| {
     window.close();
